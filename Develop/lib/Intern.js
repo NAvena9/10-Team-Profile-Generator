@@ -1,19 +1,21 @@
+//Sub-Class of Employee: Intern
 const Employee = require("./Employee");
 
-class Intern extends Employee {
-  constructor(name, id, email, school) {
-    super(name, id, email);
-    this.school = school;
-  }
 
-  getRole() {
-    return "Intern";
-  }
+class Intern extends Employee{
+    constructor(name, id, email, school){
+        super(name, id, email);
+        this.school = school;
+    }
 
-  getSchool() {
-    return this.school;
-  }
+    getSchool(){
+        return this.school;
+    }
+
+    getRole(){
+        return 'Intern';
+    }
     
-}
+};
 
 module.exports = Intern;
