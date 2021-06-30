@@ -11,72 +11,82 @@ const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
 
 //Path
-const output_dir = path.resolve(__dirname, "output")
-const outputPath = path.join(output_dir, "team.html");
-
+const OUTPUT_DIR= path.resolve(__dirname, "output")
+const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 //Team Building
-const teamMembers = [];
+const teamMembersArray = [];   ///0000
 const idArray = [];
 
 
+//Llamar lunchapp?
+lunchApp();
+
 function lunchApp() {
 
+  console.log(
+    "\n","-".repeat(50), "\n",
+    "This application helps you to create a team following a seriees of questions and deploys a webpage with the user input.", "\n", 
+    "-".repeat(50)
+  )
+
   //Building the Manager
+  buildManager();
+
   function buildManager() {
+
     inquirer.prompt([
       {
         type: "input",
         name: "managerName",
-        message: "Whats the team manager's name?",
+        message: "Whats the team managers name?",
       },
       {
         type: "input",
-        name: "managerId", //buscar tipos de characteres en validacion?
-        message: "Whats the manager's Id?",
+        name: "managerId", //buscar tipos de characteres en validacion? para agregarlos
+        message: "Whats the managers ID #?",
       },
       {
         type: "input",
         name: "managerEmail",
-        message: "Whats the manager's email?",
+        message: "Whats the managers email?",
       },
       {
         type: "input",
         name: "managerOffice",
-        message: "whats the manager's Office Number?",
+        message: "whats the manager's office number?",
       },
     ]).then((answers) => {
       const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOffice);
-      teamMembers.push(manager);
+      teamMembersArray.push(manager);
       idArray.push(answers.managerId);
-      buildTeam();
+      addTeamMember();  
     })
   };
+
+
+
   //Building our team
-  function buildTeam() {
+  function addTeamMember() {  //addTeamMember
 
     inquirer.prompt([
       {
         type: "list",
-        name: "teamIntegrant",
-        message: "Please, select the next memebeer for the Team",
-        choices: [
-          "Intern", "Engineer", "No additional members"
-        ]
+        name: "teamIntegrant",  ///teamAddition?
+        message: "Please, select the next memebeer for the Team, would it be an Engineer or an Intern?",
+        choices: ["Intern", "Engineer", "No additional members"]
       }
     ]).then(userChoice => {
-      switch (userChoice.memberChoice) {
-        case "Intern":
-          addIntern();
-          break;
-        case "Engineer":
-          addEngineer();
-          break;
-        default:
-          createTeam();
+      if(userChoice.teamIntegrant === "Engineer"){
+        addEngineer();
+      }else if(userChoice.teamIntegrant === "Intern") {
+        addIntern();
+      } else{
+        createTeamHTML(); ///seria en el html
       }
-    });
+    })
   }
+
 
   //addIntern function declaration
   function addIntern() {
@@ -84,17 +94,17 @@ function lunchApp() {
       {
         type: "input",
         name: "internName",
-        message: "What's the intern name?"
+        message: "What's the intern's name?"
       },
       {
         type: "input",
         name: "internId",
-        message: "What is the Intern ID?"
+        message: "What is the Intern's ID #?"
       },
       {
         type: "input",
         name: "internEmail",
-        message: "Whats the intern email?"
+        message: "Whats the Intern's email?"
       },
       {
         type: "input",
@@ -103,9 +113,11 @@ function lunchApp() {
       }
     ]).then(answers => {
       const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
-      teamMembers.push(intern);
-      idArray.push(answers.internId);
-      buildTeam();
+      teamMembersArray.push(intern);
+
+      idArray.push(answers.internId); // ???
+
+      addTeamMember();
     });
   }
 
@@ -119,7 +131,7 @@ function lunchApp() {
       {
         type: "input",
         name: "engineerId",
-        message: "What is the engineer's ID"
+        message: "What is the Engineer's ID #?"
       },
       {
         type: "input",
@@ -131,26 +143,30 @@ function lunchApp() {
         name: "engineerGh",
         message: "What is the Enginer's Github username?"
       }
-    ]).then(answer => {
+    ]).then(answers => {
       const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGh);
-      teamMembers.push(engineer);
-      idArray.push(answers.engineerId);
-      buildTeam();
+      teamMembersArray.push(engineer);
+
+      idArray.push(answers.engineerId); //??
+
+      addTeamMember();  ///ANTES LA HABIA LLAMADO buildTeam 
     })
   }
 
   //Building the Team with all the members input by use
-  function createTeam() {
-    console.log(teamMembers, idArray);
+  function createTeamHTML() {
+    const templates = render(teamMembersArray);
 
-    if (!fs.existsSync(output_dir)) {
-      fs.mkdirSync(output_dir);
+    if (!fs.existsSync(OUTPUT_DIR)) {
+      fs.mkdirSync(OUTPUT_DIR);
     }
-    fs.writeFileSync(outputPath, render(teamMembers), "utf-8");
-  }
+    fs.writeFile(outputPath, templates, (err) => {
+      if(err) throw err;
 
-  buildManager();
+      console.log("\n", "The HTML webpage has been created successfully");
+    })
+  }
 
 }
 
-lunchApp();
+// lunchApp();
