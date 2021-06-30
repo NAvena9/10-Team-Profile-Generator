@@ -16,18 +16,17 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 //Team Building
 const teamMembersArray = [];   ///0000
-const idArray = [];
 
 
-//Llamar lunchapp?
 lunchApp();
 
 function lunchApp() {
 
   console.log(
-    "\n","-".repeat(50), "\n",
+    "\n","-".repeat(90), "\n",
+    "\n", "Welcome to the Team Profile Generator App", "\n",
     "This application helps you to create a team following a seriees of questions and deploys a webpage with the user input.", "\n", 
-    "-".repeat(50)
+    "-".repeat(90)
   )
 
   //Building the Manager
@@ -59,7 +58,6 @@ function lunchApp() {
     ]).then((answers) => {
       const manager = new Manager(answers.managerName, answers.managerId, answers.managerEmail, answers.managerOffice);
       teamMembersArray.push(manager);
-      idArray.push(answers.managerId);
       addTeamMember();  
     })
   };
@@ -67,12 +65,12 @@ function lunchApp() {
 
 
   //Building our team
-  function addTeamMember() {  //addTeamMember
+  function addTeamMember() {  
 
     inquirer.prompt([
       {
         type: "list",
-        name: "teamIntegrant",  ///teamAddition?
+        name: "teamIntegrant",  
         message: "Please, select the next memebeer for the Team, would it be an Engineer or an Intern?",
         choices: ["Intern", "Engineer", "No additional members"]
       }
@@ -82,7 +80,7 @@ function lunchApp() {
       }else if(userChoice.teamIntegrant === "Intern") {
         addIntern();
       } else{
-        createTeamHTML(); ///seria en el html
+        createTeamHTML(); 
       }
     })
   }
@@ -114,9 +112,6 @@ function lunchApp() {
     ]).then(answers => {
       const intern = new Intern(answers.internName, answers.internId, answers.internEmail, answers.internSchool);
       teamMembersArray.push(intern);
-
-      idArray.push(answers.internId); // ???
-
       addTeamMember();
     });
   }
@@ -135,7 +130,7 @@ function lunchApp() {
       },
       {
         type: "input",
-        name: "engineerMail",
+        name: "engineerEmail",
         message: "What is the Engineer's email?",
       },
       {
@@ -146,10 +141,7 @@ function lunchApp() {
     ]).then(answers => {
       const engineer = new Engineer(answers.engineerName, answers.engineerId, answers.engineerEmail, answers.engineerGh);
       teamMembersArray.push(engineer);
-
-      idArray.push(answers.engineerId); //??
-
-      addTeamMember();  ///ANTES LA HABIA LLAMADO buildTeam 
+      addTeamMember();  
     })
   }
 
