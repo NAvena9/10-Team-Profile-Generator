@@ -11,8 +11,8 @@ const Engineer = require("./lib/engineer");
 const Intern = require("./lib/intern");
 
 //Path
-const OUTPUT_DIR = path.resolve(__dirname, "output")
-const outputPath = path.join(OUTPUT_DIR, "team.html");
+const output_dir = path.resolve(__dirname, "output")
+const outputPath = path.join(output_dir, "team.html");
 
 
 //Team Building
@@ -32,7 +32,7 @@ function lunchApp() {
       },
       {
         type: "input",
-        name: "managerId", //Ver tipos de characteres en validacion
+        name: "managerId", //buscar tipos de characteres en validacion?
         message: "Whats the manager's Id?",
       },
       {
@@ -64,8 +64,8 @@ function lunchApp() {
           "Intern", "Engineer", "No additional members"
         ]
       }
-    ]).then(choice => {
-      switch (choice.memberChoice) {
+    ]).then(userChoice => {
+      switch (userChoice.memberChoice) {
         case "Intern":
           addIntern();
           break;
@@ -151,6 +151,6 @@ function lunchApp() {
 
   buildManager();
 
-};
+}
 
 lunchApp();

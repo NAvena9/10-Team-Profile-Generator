@@ -1,63 +1,85 @@
+// create the team
+const generateTeam = team => {
 
-// Template co create the HTML elements
-//Manager HTML Template 
-const buildManager = manager => {
-    return `
+    // create the manager html
+    const generateManager = manager => {
+        return `
         <div class="card employee-card">
         <div class="card-header">
-            <h2 class="card-title">${manager.name}</h2>
-            <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>${manager.role}</h3>
+            <h2 class="card-title">${manager.getName()}</h2>
+            <h3 class="card-title"><i class="fas fa-mug-hot mr-2"></i>${manager.getRole()}</h3>
         </div>
         <div class="card-body">
             <ul class="list-group">
-                <li class="list-group-item">ID: ${manager.id}</li>
-                <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.email}</a></li>
-                <li class="list-group-item">Office number: ${manager.officeNumber}</li>
+                <li class="list-group-item">ID: ${manager.getId()}</li>
+                <li class="list-group-item">Email: <a href="mailto:${manager.getEmail()}">${manager.getEmail()}</a></li>
+                <li class="list-group-item">Office number: ${manager.getOfficeNumber()}</li>
             </ul>
         </div>
     </div>
         `;
-};
+    };
 
-// Engineer HTML Template 
-const buildEngineer = engineer => {
-    return `
+    // create the html for engineers
+    const generateEngineer = engineer => {
+        return `
         <div class="card employee-card">
     <div class="card-header">
-        <h2 class="card-title">${engineer.name}</h2>
-        <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>${engineer.role}</h3>
+        <h2 class="card-title">${engineer.getName()}</h2>
+        <h3 class="card-title"><i class="fas fa-glasses mr-2"></i>${engineer.getRole()}</h3>
     </div>
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item">ID: ${engineer.id}</li>
-            <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.email}</a></li>
+            <li class="list-group-item">ID: ${engineer.getId()}</li>
+            <li class="list-group-item">Email: <a href="mailto:${engineer.getEmail()}">${engineer.getEmail()}</a></li>
             <li class="list-group-item">GitHub: <a href="https://github.com/${engineer.getGithub()}" target="_blank" rel="noopener noreferrer">${engineer.getGithub()}</a></li>
         </ul>
     </div>
 </div>
         `;
-};
+    };
 
-// Intern HTML Template  
-const generateIntern = intern => {
-    return `
+    // create the html for interns
+    const generateIntern = intern => {
+        return `
         <div class="card employee-card">
     <div class="card-header">
-        <h2 class="card-title">${intern.name}</h2>
-        <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>${intern.role}</h3>
+        <h2 class="card-title">${intern.getName()}</h2>
+        <h3 class="card-title"><i class="fas fa-user-graduate mr-2"></i>${intern.getRole()}</h3>
     </div>
     <div class="card-body">
         <ul class="list-group">
-            <li class="list-group-item">ID: ${intern.id}</li>
-            <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.email}</a></li>
-            <li class="list-group-item">School: ${intern.school}</li>
+            <li class="list-group-item">ID: ${intern.getId()}</li>
+            <li class="list-group-item">Email: <a href="mailto:${intern.getEmail()}">${intern.getEmail()}</a></li>
+            <li class="list-group-item">School: ${intern.getSchool()}</li>
         </ul>
     </div>
 </div>
         `;
-};
+    };
 
-//Export the module (function collection to generate the content) 
+    const html = [];
+
+    html.push(team
+        .filter(employee => employee.getRole() === "Manager")
+        .map(manager => generateManager(manager))
+    );
+    html.push(team
+        .filter(employee => employee.getRole() === "Engineer")
+        .map(engineer => generateEngineer(engineer))
+        .join("")
+    );
+    html.push(team
+        .filter(employee => employee.getRole() === "Intern")
+        .map(intern => generateIntern(intern))
+        .join("")
+    );
+
+    return html.join("");
+
+}
+
+// export function to generate entire page
 module.exports = team => {
 
     return `
@@ -86,7 +108,7 @@ module.exports = team => {
     <div class="container">
         <div class="row">
             <div class="team-area col-12 d-flex justify-content-center">
-                ${createTeam(team)}
+                ${generateTeam(team)}
             </div>
         </div>
     </div>
