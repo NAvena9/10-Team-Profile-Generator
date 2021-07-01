@@ -43,29 +43,33 @@ THEN I exit the application, and the HTML is generated
 
 
 
-## Screen Shot
+## Screenshots & Test
+The following gifs and images show the application appearance:
 
-The following image shows the web application's appearance :
+![Team Profile](Assets/test.gif)
+
+![Team Profile](Assets/inputs.gif)
 
 ![demo](Assets/demo.png)
 
 
 
   
-## URL 
+## Demo URL 
 
-The following animation demonstrates the application functionality:
-https://navena9.github.io/05-Work-Day-Scheduler/
+The following link takes you to a video with the app demo:
+URL: https://drive.google.com/file/d/1w0guKYPV2DTKYcz_-aAi7Fk1jhcsN2OD/view?usp=sharing
 
 
 
 
 ## Used Frameworks/Technologies
 
+- Inquirer
+- Node.js
+- Jest
 - JavaScript
-- HTML
-- CSS
-- JQuery
+- OOP
 
 
 
